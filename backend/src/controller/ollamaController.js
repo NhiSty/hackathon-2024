@@ -1,24 +1,28 @@
 import express from "express";
-import { Ollama } from 'ollama'
 //import { prisma } from '../database/index.js';
 
 const app = express();
-const ollama = new Ollama(
-    {
-        host: process.env.OLLAMA_URL,
-    }
-);
 
 app.post('/', async (req, res) => {
-    const { model, messages } = req.body;
+    //const { messages } = req.body;
 
-    if (!model || !messages) {
-        return res.status(400).json({ error: 'Missing required parameters' });
-    }
+    const response = await fetch(`${process.env.OLLAMA_URL}/api/generate`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            model: 'mistral',
+            prompt: 'Coucou, comment ça va ?',
+            stream: false,
+        }),
+    });
 
-    const response = await ollama.chat({ model, messages });
+    const data = await response.json();
 
-    return res.json(response).status(200);
+    console.log(data['response']);
+
+    res.send(data).status(200);
 });
 
 export default app;

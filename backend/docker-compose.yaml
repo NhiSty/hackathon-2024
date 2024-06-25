@@ -2,7 +2,6 @@ version: "3"
 
 services:
   node:
-    container_name: node
     image: node:20-alpine
     working_dir: /var/www/html/app/
     user: node
@@ -15,13 +14,11 @@ services:
     command: sh -c "npm i && npx prisma generate && npm run dev"
     depends_on:
       - db
-      - ollama
     environment:
-      OLLAMA_URL: http://localhost:11434/
+      OLLAMA_URL: http://host.docker.internal:11434
 
   db:
     image: postgres:16
-    container_name: db
     ports:
       - "5432:5432"
     environment:
@@ -33,19 +30,12 @@ services:
 
   adminer:
     image: adminer
-    container_name: adminer
     ports:
       - "8080:8080"
     environment:
       ADMINER_DEFAULT_SERVER: db
     depends_on:
       - db
-
-  ollama:
-    image: ollama/ollama
-    container_name: ollama
-    ports:
-      - "11434:11434"
 
 volumes:
   db-data:
