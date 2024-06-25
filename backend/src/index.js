@@ -1,17 +1,30 @@
 import "dotenv/config";
-
-import { startServer } from "./http/index.js";
-
 import { prisma } from "./database/index.js";
+import bodyParser from "body-parser";
+import express from "express";
+import 'dotenv/config';
+import ollamaRouter from './router/ollamaRoutes.js';
 
-startServer()
-  .then(async () => {
-    await prisma.$disconnect();
+
+const app = express();
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+const PORT = process.env.PORT || 3000;
+
+
+app.use(ollamaRouter);
+
+app.listen(PORT, () => {
+  console.info(`API running on port ${PORT}`);
+})
+
+
+prisma.$connect()
+  .then(() => {
+    console.log("Connected to the database");
   })
-  .catch(async (e) => {
-    console.error(e);
-    await prisma.$disconnect();
-    process.exit(1);
+  .catch((error) => {
+    console.error("Error connecting to the database: ", error);
   });
 
 console.log('Server started!')
