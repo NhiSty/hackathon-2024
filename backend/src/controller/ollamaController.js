@@ -3,7 +3,11 @@ import { Ollama } from 'ollama'
 //import { prisma } from '../database/index.js';
 
 const app = express();
-const ollama = new Ollama({ host: 'http://localhost:11434' })
+const ollama = new Ollama(
+    {
+        host: process.env.OLLAMA_URL,
+    }
+);
 
 app.post('/', async (req, res) => {
     const { model, messages } = req.body;

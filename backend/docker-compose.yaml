@@ -1,3 +1,5 @@
+version: "3"
+
 services:
   node:
     container_name: node
@@ -11,6 +13,11 @@ services:
     tty: true
     stdin_open: true
     command: sh -c "npm i && npx prisma generate && npm run dev"
+    depends_on:
+      - db
+      - ollama
+    environment:
+      OLLAMA_URL: http://localhost:11434/
 
   db:
     image: postgres:16
@@ -33,6 +40,12 @@ services:
       ADMINER_DEFAULT_SERVER: db
     depends_on:
       - db
+
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    ports:
+      - "11434:11434"
 
 volumes:
   db-data:
