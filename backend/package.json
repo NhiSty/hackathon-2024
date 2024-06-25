@@ -1,0 +1,40 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "types": "module",
+  "scripts": {
+    "dev": "node --watch --watch-path=./src ./src/index.js",
+    "start": "node ./src/index.js",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:sync": "prisma db push",
+    "db:seed": "node ./prisma/seed.js"
+  },
+  "engines": {
+    "node": "^20.0.0"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@adonisjs/env": "^6.1.0",
+    "@eslint/js": "^9.5.0",
+    "@poppinss/utils": "^6.7.3",
+    "@prisma/client": "^5.15.1",
+    "@vinejs/vine": "^2.1.0",
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.4.5",
+    "eslint": "^9.5.0",
+    "express": "^4.19.2",
+    "express-async-handler": "^1.2.0",
+    "globals": "^15.6.0",
+    "pino": "^9.2.0",
+    "pino-http": "^10.1.0",
+    "pino-pretty": "^11.2.1",
+    "prettier": "^3.3.2",
+    "prisma": "^5.15.1"
+  },
+  "packageManager": "npm@10.8.1+sha512.0e9d42e92bd2318408ed81eaff2da5f78baf23ee7d12a6eed44a6e2901d0f29d7ab715d1b918ade601f72e769a824d9a5c322383f22bbbda5dd396e79de2a077"
+}
