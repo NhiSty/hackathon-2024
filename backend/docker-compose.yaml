@@ -1,4 +1,17 @@
 services:
+  node:
+    container_name: node
+    image: node:20-alpine
+    working_dir: /var/www/html/app/
+    user: node
+    volumes:
+      - ./:/var/www/html/app/
+    ports:
+      - 1337:1337
+    tty: true
+    stdin_open: true
+    command: sh -c "npm i && npx prisma generate && npm run dev"
+
   db:
     image: postgres:16
     container_name: db
