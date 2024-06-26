@@ -20,36 +20,33 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Answer    Answer?
+  answers   Answer[]
 }
 
 model Question {
-  id           Int           @id @default(autoincrement())
-  content      String
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  Answer       Answer?
-  SimplifiedIA SimplifiedIA?
+  id        Int      @id @default(autoincrement())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  answers   Answer[]
 }
 
 model Answer {
   id           Int           @id @default(autoincrement())
   content      String
-  author       User          @relation(fields: [authorId], references: [id])
-  authorId     Int           @unique
-  question     Question      @relation(fields: [questionId], references: [id])
-  questionId   Int           @unique
+  author       User          @relation(fields: [authorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  authorId     Int
+  question     Question      @relation(fields: [questionId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  questionId   Int
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
-  SimplifiedIA SimplifiedIA?
+  simplifiedIA SimplifiedIA?
 }
 
 model SimplifiedIA {
-  id         Int      @id @default(autoincrement())
-  question   Question @relation(fields: [questionId], references: [id])
-  questionId Int      @unique
-  answer     Answer   @relation(fields: [answerId], references: [id])
-  answerId   Int      @unique
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id        Int      @id @default(autoincrement())
+  answer    Answer   @relation(fields: [answerId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  answerId  Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

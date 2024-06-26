@@ -46,46 +46,59 @@ app.post('/', async (req, res) => {
     const user = await prisma.user.findUnique({
         where: {
             email: "test@test.com",
-        }
-    })
+        },
+    });
 
     if (!user) {
-        res.send("error").status(404)
+        return res.status(404).send("User not found");
     }
 
     const question = await prisma.question.create({
         data: {
             content: qst,
-        }
-    })
+        },
+    });
 
     if (!question) {
-        res.send("error").status(422)
+        return res.status(422).send("Error creating question");
     }
-
-
 
     const answerReq = await prisma.answer.create({
         data: {
             content: answer,
             question: {
                 connect: {
-                    id: question.id
-                }
+                    id: question.id,
+                },
             },
             author: {
                 connect: {
-                    id: user.id
-                }
-            }
-        }
-    })
+                    id: user.id,
+                },
+            },
+        },
+    });
 
     if (!answerReq) {
-        res.send("error").status(422)
+        return res.status(422).send("Error creating answer");
     }
 
-    res.send("data").status(200);
+    const simplifiedAnswer = await prisma.simplifiedIA.create({
+        data: {
+            answer: {
+                connect: {
+                    id: answerReq.id,
+                },
+            },
+        },
+    });
+
+    if (!simplifiedAnswer) {
+        return res.status(422).send("Error creating simplified answer");
+    }
+
+    res.status(200).send("Data created successfully");
+
 });
 
 export default app;
