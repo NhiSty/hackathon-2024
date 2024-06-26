@@ -4,7 +4,12 @@ import express from "express";
 const app = express();
 
 app.post('/', async (req, res) => {
-    //const { messages } = req.body;
+    const { qst, answer } = req.body;
+
+    if (!qst || !answer) {
+        res.status(400).send('Missing parameters');
+        return;
+    }
 
     const response = await fetch(`${process.env.OLLAMA_URL}/api/generate`, {
         method: 'POST',
