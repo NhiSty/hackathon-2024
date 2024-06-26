@@ -14,42 +14,42 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(cuid())
+  id        Int      @id @default(autoincrement())
   email     String   @unique
   name      String?
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Answer    Answer[]
+  Answer    Answer?
 }
 
 model Question {
-  id           String         @id @default(cuid())
+  id           Int           @id @default(autoincrement())
   content      String
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  Answer       Answer[]
-  SimplifiedIA SimplifiedIA[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  Answer       Answer?
+  SimplifiedIA SimplifiedIA?
 }
 
 model Answer {
-  id           String         @id @default(cuid())
+  id           Int           @id @default(autoincrement())
   content      String
-  author       User           @relation(fields: [authorId], references: [id])
-  authorId     String
-  question     Question       @relation(fields: [questionId], references: [id])
-  questionId   String
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  SimplifiedIA SimplifiedIA[]
+  author       User          @relation(fields: [authorId], references: [id])
+  authorId     Int           @unique
+  question     Question      @relation(fields: [questionId], references: [id])
+  questionId   Int           @unique
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  SimplifiedIA SimplifiedIA?
 }
 
 model SimplifiedIA {
-  id         String   @id @default(cuid())
+  id         Int      @id @default(autoincrement())
   question   Question @relation(fields: [questionId], references: [id])
-  questionId String
+  questionId Int      @unique
   answer     Answer   @relation(fields: [answerId], references: [id])
-  answerId   String
+  answerId   Int      @unique
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }

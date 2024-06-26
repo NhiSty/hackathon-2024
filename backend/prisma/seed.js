@@ -1,6 +1,17 @@
-import { prisma } from "../src/database/index.js";
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
 
-async function main() {}
+async function main() {
+
+  await prisma.user.create({
+    data: {
+      email: "test@test.com",
+      password: "test",
+      name: "test",
+    },
+  })
+
+}
 
 main()
   .then(async () => {
