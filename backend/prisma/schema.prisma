@@ -44,9 +44,11 @@ model Answer {
 }
 
 model SimplifiedIA {
-  id        Int      @id @default(autoincrement())
-  answer    Answer   @relation(fields: [answerId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  answerId  Int      @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  answer     Answer   @relation(fields: [answerId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  answerId   Int      @unique
+  category   String
+  confidence Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

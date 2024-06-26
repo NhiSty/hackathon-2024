@@ -1,5 +1,5 @@
 import express from "express";
-import { prisma } from '../database/index.js';
+import {prisma} from '../database/index.js';
 
 const app = express();
 
@@ -12,35 +12,10 @@ app.post('/', async (req, res) => {
         return;
     }
 
-    /*const response = await fetch(`${process.env.OLLAMA_URL}/api/generate`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            model: 'mistral',
-            prompt: 'Tu es un outils de catégorisation de messages en milieu hospitalier. ' +
-                'Dans le cadre de tes fonctions tu recevra un contexte médical du patient ' +
-                'avec une question posé qu\'on a prefixé par \'-QP-\' et un la réponse du ' +
-                'patient préfixé par \'-RD-\'. Ton rôle est de catégoriser les messages en ' +
-                `prenant en compte la réponse du patient ainsi que la question posée -QP-` +
-                'dans l\'une de ces quatres catégories: \'TVB\' pour tout va bien ou que le' +
-                ' patient écris TVB ou tvb ou Tvb, \'ATTENTION REQUISE\' lorsque le patient ' +
-                'présente des troubles phyisque ou psychique léger, \'URGENCE\' lorsque le' +
-                ' patient présente des troubles phyisque ou psychique grave ou lorsqu\'il sagit' +
-                ' d\'une situation grave ou que le message présente un caractère d\'urgence ou ' +
-                'que le patient donne une annulation ou un retard à un rendez-vous, \'N/A\' lorsque' +
-                ` le message ne répond pas à la -QP- ou n'appartient à aucune autre catégorie. ` +
-                'Si la réponse du patient est courte et répond à la question posée, renvoies ' +
-                `une chaine vide. Tu ne dois pas donner d'explications. -QP- correspond à la ` +
-                `question posé et -RD- à la réponse que tu dois classifier.` +
-                `QP : ${qst}` +
-                `RD : ${answer}`,
-            stream: false,
-        }),
-    });*/
+    const response = await iaMistral(qst, answer);
 
-    // const data = await response.json();
+    const data = await response.json();
+    const iaResponse = JSON.parse(data.response);
 
 
     const user = await prisma.user.findUnique({
@@ -90,6 +65,8 @@ app.post('/', async (req, res) => {
                     id: answerReq.id,
                 },
             },
+            category: iaResponse.category,
+            confidence: parseInt(iaResponse.confidence)
         },
     });
 
@@ -102,3 +79,41 @@ app.post('/', async (req, res) => {
 });
 
 export default app;
+
+
+export async function iaMistral(qst, answer) {
+
+    const response = await fetch(`${process.env.OLLAMA_URL}/api/generate`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            model: 'mistral',
+            prompt: "Tu es un outils de catégorisation de messages en milieu" +
+                " hospitalier. Dans le cadre de tes fonctions tu recevra un " +
+                "contexte médical du patient avec une question posé qu'on a " +
+                "prefixé par '-QP-' et un la réponse du patient préfixé par " +
+                "'-RD-'. Ton rôle est de catégoriser les messages en prenant" +
+                " en compte la réponse du patient ainsi que la question posée " +
+                "-QP- dans l'une de ces quatres catégories: 'TVB' si le patient" +
+                " va bien, 'ATTENTION REQUISE' lorsque le patient présente des " +
+                "troubles phyisque ou psychique léger, 'URGENCE' lorsque le patient" +
+                " présente des troubles phyisque ou psychique grave ou lorsqu'il" +
+                " sagit d'une situation grave ou que le message présente un caractère" +
+                " d'urgence ou que le patient donne une annulation ou un retard à un" +
+                " rendez-vous, 'N/A' lorsque le message ne répond pas à la -QP- ou " +
+                "n'appartient à aucune autre catégorie. Si la réponse du patient est" +
+                " courte et répond à la question posée, renvoies une chaine vide. Tu " +
+                "ne dois pas donner d'explications. Dans ta réponse précise le taux de" +
+                " certitude en pourcentage. Ta réponse doit-être au format json avec les clefs suivantes: category, confidence." +
+                "-QP- correspond à la question posé et -RD- à la réponse que tu dois classifier." +
+                `-QP-: \`${qst}\` ` +
+                `-RD-: \`${answer}\``,
+            stream: false,
+        }),
+    });
+
+    const data = await response.json();
+    return JSON.parse(data.response)
+}

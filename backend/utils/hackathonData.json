@@ -1,0 +1,102 @@
+[
+  {
+    "question": "bonjour, que se passe-t-il?",
+    "osef": "",
+    "reponse": "L operation de l oeil droit n a pas eu lieu car mon taux de Sucre etait trop eleve   il faut repoussser en September"
+  },
+  {
+    "question": "Vous n'avez pas répondu : ce questionnaire va être clôturé. Encas de problèmes de santé en lien avec votre intervention, vous pouvez joindre le 01.00.00.00.00. Veuillez continuer les traitements. Bonne journée à vous.",
+    "osef": "",
+    "reponse": "TVB Merci infiniment  Marija Kekic"
+  },
+  {
+    "question": "Merci de votre réponse. Si besoin vous pouvez nous appeler au 01.00.00.00.00 du lundi au vendredi entre 09:00 et 17:00 et au 01.00.00.00.00 le samedi",
+    "osef": "",
+    "reponse": "Merci beaucoup je vous souhaite une très bonne journée"
+  },
+  {
+    "question": "Bonjour, nous n'avons pas reçu le résultat de votre ECBU. Pouvez vous nous le faire parvenir rapidement. Cordialement,",
+    "osef": "",
+    "reponse": "Bjr je ne l'ai pas, j'appelle tous les jours. Il y a 3 germes identifiés, l'antibiogramme devrait être dispo demain. J'ai prévenu le Dr Lonca. Cdlt"
+  },
+  {
+    "question": "Vous n'avez pas répondu, si tout va bien répondez TVB, sinon répondez AID",
+    "osef": "",
+    "reponse": "Je m'excuse pour le retard"
+  },
+  {
+    "question": "Apportez vos médicaments et votre ordonnance",
+    "osef": "",
+    "reponse": "merci bien reçu"
+  },
+  {
+    "question": "Nous vous attendons le **/date_demarrage**/ à l'UCA bat Babinski, étage RB. Pour toute question vous pouvez nous joindre au 01.00.00.00.00 ou 81, de 7h à 19h. Vous pouvez prendre un petit déjeuner. Si vous etes diabétique petit dejeuner OBLIGATOIRE. Prenez l'ensemble de votre traitement habituel.",
+    "osef": "",
+    "reponse": "Merci beaucoup à demain à 08h15."
+  },
+  {
+    "question": "Hopital de la Pitié Salpetrière : Evaluez de nouveau votre douleur sur une échelle de 0 à 10 (0 = pas de douleur; 10 = douleur insupportable)",
+    "osef": "",
+    "reponse": "O pas douleur"
+  },
+  {
+    "question": "Un accompagnant est obligatoire pour votre sortie",
+    "osef": "",
+    "reponse": "C est noté"
+  },
+  {
+    "question": "Hopital Tenon : évaluez votre séjour en Chirurgie Ambulatoire de 0 à 10 (0: pas satisfait du tout et 10: extrêmement satisfait)",
+    "osef": "",
+    "reponse": "10 tiptAupe"
+  },
+  {
+    "question": "CH de Gonesse : suite à votre opération, si vous rencontrez des signes anormaux (douleurs, saignements,...) répondez SIG",
+    "osef": "",
+    "reponse": "Aucun problème ni douleurs ni saignements"
+  },
+  {
+    "question": "Un accompagnant sera obligatoire pour votre retour à domicile et il devra etre présent à vos cotés jusqu'au lendemain matin",
+    "osef": "",
+    "reponse": "Je n'ai pas reçu le dossier d'admission"
+  },
+  {
+    "question": "Pour toute question ou problème vous pouvez nous appeler au 01.00.00.00.00 ou 01.00.00.00.00 de 9h à 15h",
+    "osef": "",
+    "reponse": "Bonjour merci pour vos bons soins tout va bien pas de douleur l'équipe a été formidable merci"
+  },
+  {
+    "question": "Bonjour, je suis John le robot et je suis là pour répondre à vos questions. C'est à vous !",
+    "osef": "",
+    "reponse": "Bonjour je souhaiterais échanger avec un responsable digital"
+  },
+  {
+    "question": "Si vous avez demandé à voir le medecin radiologue et que vous l'avez effectivement rencontré, répondez VU",
+    "osef": "",
+    "reponse": "La prise en charge niveau 5 vu"
+  },
+  {
+    "question": "Prenez vos médicaments selon les consignes recues et apportez le matériel s'il vous a été prescrit (béquilles, bandes de contention, )",
+    "osef": "",
+    "reponse": "Merci pour toutes ces infos."
+  },
+  {
+    "question": "Si vous avez demandé à voir le médecin radiologue et que vous l'avez effectivement rencontré, répondez VU",
+    "osef": "",
+    "reponse": "Très satisfait merci beaucoup"
+  },
+  {
+    "question": "Merci de votre réponse. Dans le cadre d'un programme de suivi de la douleur post-opératoire, évaluez votre douleur sur une échelle de 0 à 10 (0 : pas de douleur ; 10 : douleur insupportable)",
+    "osef": "",
+    "reponse": "0 pour le moment"
+  },
+  {
+    "question": "Vous n'avez répondu à aucun message, répondez y maintenant. Si tout va bien répondez maintenant TVB",
+    "osef": "",
+    "reponse": "Bonjour pour l instant TVB la douleur est supportable merci"
+  },
+  {
+    "question": "Si vous avez demandé à voir le medecin radiologue et que vous l'avez effectivement rencontré, répondez VU",
+    "osef": "",
+    "reponse": "Très satisfaite, échelle de 5 , non je n'es pas demandé avoir un médecin . Merci à l'équipe"
+  }
+  ]
