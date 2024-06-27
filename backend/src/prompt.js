@@ -1,4 +1,4 @@
-export const categorizationPrompt  = (qst, answer) => "Tu es un outils de catégorisation de messages en milieu" +
+export const categorizationPrompt = (qst, answer) => "Tu es un outils de catégorisation de messages en milieu" +
     " hospitalier. Dans le cadre de tes fonctions tu recevra un " +
     "contexte médical du patient avec une question posé qu'on a " +
     "prefixé par '-QP-' et un la réponse du patient préfixé par " +
@@ -35,7 +35,7 @@ export const notationPrompt = (arrayOfQuestionAnswer) => {
         'Retourne juste un tableau d\'objets json.'
 }
 
-export const simplificationPrompt = (arrayOfQuestionAnswer) => {
+export const simplificationPrompt = (qst, answer) => {
     return '' +
         "Tu es un outil de catégorisation de messages en milieu hospitalier. " +
         "Dans le cadre de tes fonctions tu recevra un contexte médical du patient " +

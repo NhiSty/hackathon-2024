@@ -1,13 +1,11 @@
 import express from "express";
 import { prisma } from "../database/index.js";
-import {categorizationPrompt, notationPrompt, simplificationPrompt} from "../prompt.js";
+import { categorizationPrompt, notationPrompt, simplificationPrompt } from "../prompt.js";
 
 const app = express();
 
 app.post("/", async (req, res) => {
   const { qst, answer, rating } = req.body;
-
-  console.log(qst, answer, rating);
 
   if (!qst || !answer) {
     res.status(400).send("Missing parameters");
@@ -17,7 +15,7 @@ app.post("/", async (req, res) => {
 
   const iaResponse = await iaMistral(categorizationPrompt(qst, answer));
 
-  console.log(iaResponse);
+  console.log("IA RESPONSE " + iaResponse);
 
   const user = await prisma.patient.findUnique({
     where: {
@@ -64,14 +62,14 @@ app.post("/", async (req, res) => {
 
   const simplifiedAnswer = await prisma.simplifiedIA.create({
     data: {
-      content: simplifiedAnswer.resume,
+      content: iaResponseSimplify.resume,
       answer: {
         connect: {
           id: answerReq.id,
         },
       },
       category: iaResponse.category,
-      confidence: simplifiedAnswer.precision,
+      confidence: `${iaResponseSimplify.precision}%`,
     },
   });
 
@@ -84,7 +82,7 @@ app.post("/", async (req, res) => {
 
 app.post('/test', async (req, res) => {
 
-  const questions = await prisma.question.findMany( {
+  const questions = await prisma.question.findMany({
     include: {
       answers: true,
     },
@@ -119,7 +117,7 @@ export async function iaMistral(prompt) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "mistral",
+      model: "llama3",
       prompt: prompt,
       stream: false,
     }),

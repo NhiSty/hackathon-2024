@@ -1,13 +1,16 @@
 -- CreateTable
-CREATE TABLE "User" (
+CREATE TABLE "Patient" (
     "id" SERIAL NOT NULL,
     "email" TEXT NOT NULL,
-    "name" TEXT,
-    "password" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "firstname" TEXT NOT NULL,
+    "birthDate" TIMESTAMP(3) NOT NULL,
+    "cellphone" TEXT,
+    "numOperation" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Patient_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -16,6 +19,7 @@ CREATE TABLE "Question" (
     "content" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
+    "isRating" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Question_pkey" PRIMARY KEY ("id")
 );
@@ -35,8 +39,10 @@ CREATE TABLE "Answer" (
 -- CreateTable
 CREATE TABLE "SimplifiedIA" (
     "id" SERIAL NOT NULL,
-    "questionId" INTEGER NOT NULL,
     "answerId" INTEGER NOT NULL,
+    "category" TEXT NOT NULL,
+    "confidence" TEXT,
+    "content" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -44,28 +50,16 @@ CREATE TABLE "SimplifiedIA" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Answer_authorId_key" ON "Answer"("authorId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Answer_questionId_key" ON "Answer"("questionId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "SimplifiedIA_questionId_key" ON "SimplifiedIA"("questionId");
+CREATE UNIQUE INDEX "Patient_email_key" ON "Patient"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "SimplifiedIA_answerId_key" ON "SimplifiedIA"("answerId");
 
 -- AddForeignKey
-ALTER TABLE "Answer" ADD CONSTRAINT "Answer_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Answer" ADD CONSTRAINT "Answer_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "Patient"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Answer" ADD CONSTRAINT "Answer_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Answer" ADD CONSTRAINT "Answer_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "SimplifiedIA" ADD CONSTRAINT "SimplifiedIA_questionId_fkey" FOREIGN KEY ("questionId") REFERENCES "Question"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "SimplifiedIA" ADD CONSTRAINT "SimplifiedIA_answerId_fkey" FOREIGN KEY ("answerId") REFERENCES "Answer"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "SimplifiedIA" ADD CONSTRAINT "SimplifiedIA_answerId_fkey" FOREIGN KEY ("answerId") REFERENCES "Answer"("id") ON DELETE CASCADE ON UPDATE CASCADE;
