@@ -1,6 +1,6 @@
 import express from "express";
 import { prisma } from "../database/index.js";
-import {prompt_2} from "../prompt.js";
+import {categorizationPrompt, notationPrompt, simplificationPrompt} from "../prompt.js";
 
 const app = express();
 
@@ -15,7 +15,7 @@ app.post("/", async (req, res) => {
   }
 
 
-  const iaResponse = await iaMistral(prompt_1(qst, answer));
+  const iaResponse = await iaMistral(categorizationPrompt(qst, answer));
 
   console.log(iaResponse);
 
@@ -60,15 +60,18 @@ app.post("/", async (req, res) => {
     return res.status(422).send("Error creating answer");
   }
 
+  const iaResponseSimplify = await iaMistral(simplificationPrompt(qst, answer));
+
   const simplifiedAnswer = await prisma.simplifiedIA.create({
     data: {
+      content: simplifiedAnswer.resume,
       answer: {
         connect: {
           id: answerReq.id,
         },
       },
       category: iaResponse.category,
-      confidence: parseInt(iaResponse.confidence),
+      confidence: simplifiedAnswer.precision,
     },
   });
 
@@ -99,7 +102,7 @@ app.post('/test', async (req, res) => {
     };
   });
 
-  const iaResponse = await iaMistral(prompt_2(JSON.stringify(questionsFormatted)));
+  const iaResponse = await iaMistral(notationPrompt(JSON.stringify(questionsFormatted)));
 
   console.log(iaResponse);
 

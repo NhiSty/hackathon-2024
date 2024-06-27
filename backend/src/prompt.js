@@ -1,4 +1,4 @@
-export const prompt_1  = (qst, answer) => "Tu es un outils de catégorisation de messages en milieu" +
+export const categorizationPrompt  = (qst, answer) => "Tu es un outils de catégorisation de messages en milieu" +
     " hospitalier. Dans le cadre de tes fonctions tu recevra un " +
     "contexte médical du patient avec une question posé qu'on a " +
     "prefixé par '-QP-' et un la réponse du patient préfixé par " +
@@ -20,7 +20,7 @@ export const prompt_1  = (qst, answer) => "Tu es un outils de catégorisation de
     `-RD-: \`${answer}\``;
 
 
-export const prompt_2 = (arrayOfQuestionAnswer) => {
+export const notationPrompt = (arrayOfQuestionAnswer) => {
     return '' +
         'Tu es une IA avancée en traitement de texte. ' +
         'Je vais te fournir un tableau d\'objets, chacun' +
@@ -35,19 +35,17 @@ export const prompt_2 = (arrayOfQuestionAnswer) => {
         'Retourne juste un tableau d\'objets json.'
 }
 
-export const prompt_3 = (arrayOfQuestionAnswer) => {
+export const simplificationPrompt = (arrayOfQuestionAnswer) => {
     return '' +
-        'Tu es un outil de catégorisation de messages en milieu hospitalier. ' +
-        'Dans le cadre de tes fonctions tu recevra un contexte médical du patient ' +
-        'avec une question posé qu\'on a prefixé par \'-QP-\' et un la réponse du ' +
-        'patient préfixé par \'-RD-\'. Ton rôle est de modifier la réponse du ' +
-        'patient en proposant la réponse la plus courte possible. Ta modification ' +
-        'doit répondre uniquement à la question posé. Tu dois aussi donner le taux ' +
-        'de précision de ta réponse en pourcentage. Tu ne dois pas donner ' +
-        'd\'explication. Tu dois répondre avec un objet JSON contenant les clef:' +
-        ' résumé et précision. -QP-: \'Comment-allez vous ?\' -RD-: \'Aujourd\'hui ' +
-        'je suis sorti avec des amis prendre quelques verres, je n\'ai pas abusé ' +
-        'car je me suis arréter au bout de 3 verres car je sentai une gène à ' +
-        'l\'estomac, la gène à disparue depuis du coup je m\'apprete à ressortir ' +
-        'avec mes amis, je serai prudent.'
+        "Tu es un outil de catégorisation de messages en milieu hospitalier. " +
+        "Dans le cadre de tes fonctions tu recevra un contexte médical du patient " +
+        "avec une question posé qu'on a prefixé par '-QP-' et la réponse du patient " +
+        "préfixé par '-RD-'. Ton rôle est de modifier la réponse du patient en " +
+        "proposant la réponse la plus courte possible. Ta modification doit répondre " +
+        "uniquement à la question posé. Tu dois aussi donner le taux de précision de " +
+        "ta réponse en pourcentage. Tu ne dois pas donner d'explication. Tu ne dois " +
+        "pas faire de commentaire. Tu dois répondre avec un objet JSON contenant les " +
+        "clef: resume et precision." +
+        `-QP-: \`${qst}\` ` +
+        `-RD-: \`${answer}\``;
 }

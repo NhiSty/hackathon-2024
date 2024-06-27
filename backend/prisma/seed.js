@@ -6,13 +6,13 @@ async function main() {
 
     await prisma.patient.create({
         data: {
+            id: 1,
             email: "test@test.com",
             name: "test",
             cellphone: "123456789",
             birthDate: new Date(),
             firstname: "test",
             numOperation: "0",
-
         },
     })
 
