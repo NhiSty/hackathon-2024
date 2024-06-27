@@ -5,19 +5,21 @@ import {prompt_2} from "../prompt.js";
 const app = express();
 
 app.post("/", async (req, res) => {
-  const { qst, answer } = req.body;
+  const { qst, answer, rating } = req.body;
+
+  console.log(qst, answer, rating);
 
   if (!qst || !answer) {
     res.status(400).send("Missing parameters");
     return;
   }
 
-  const response = await iaMistral(qst, answer);
 
-  const data = await response.json();
-  const iaResponse = JSON.parse(data.response);
+  const iaResponse = await iaMistral(prompt_1(qst, answer));
 
-  const user = await prisma.user.findUnique({
+  console.log(iaResponse);
+
+  const user = await prisma.patient.findUnique({
     where: {
       email: "test@test.com",
     },
@@ -30,6 +32,7 @@ app.post("/", async (req, res) => {
   const question = await prisma.question.create({
     data: {
       content: qst,
+      isRating: rating ? true : false,
     },
   });
 
