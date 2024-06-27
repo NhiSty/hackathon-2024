@@ -73,6 +73,10 @@ export function UserModal({ userId, onClose }) {
                 <div className="col-span-2 col-start-2 rounded-md bg-blue-300 p-3">
                   <p className="mt-1 text-sm text-gray-900">{data.answers[0].content}</p>
                 </div>
+
+                <div className="col-span-2 col-start-2 rounded-md bg-orange-300 p-2">
+                  <p className="mt-1 text-sm text-gray-900">{data.simplifiedMessages[0].}</p>
+                </div>
               </div>
             </ModalContent>
 
