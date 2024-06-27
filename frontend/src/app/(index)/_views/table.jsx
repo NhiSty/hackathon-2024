@@ -8,6 +8,7 @@ export function Table({ data }) {
   const colClasses =
     "px-5 py-3 text-sm font-normal text-center text-gray-800 uppercase bg-white border-b border-gray-200";
 
+  console.log(data)
   const [modalData, setModalData] = useState(null);
 
   const onAction = useCallback((params) => {
@@ -58,9 +59,9 @@ export function Table({ data }) {
       <UserModal userId={modalData} onClose={() => setModalData(null)} />
 
       <Pagination
-        totalItems={55}
-        itemsPerPage={10}
-        onPageChange={(page) => {}}
+        totalItems={data.length}
+        itemsPerPage={8}
+        onPageChange={() => {}}
       />
     </>
   );
