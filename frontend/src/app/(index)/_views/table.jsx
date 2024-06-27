@@ -40,19 +40,7 @@ export function Table({ data }) {
               <span className="sr-only">Actions</span>
             </th>
             <th scope="col" className={colClasses}>
-              Etape
-            </th>
-            <th scope="col" className={colClasses}>
-              Protocol
-            </th>
-            <th scope="col" className={colClasses}>
               Tél. Portable
-            </th>
-            <th scope="col" className={colClasses}>
-              Suivi SMS
-            </th>
-            <th scope="col" className={colClasses}>
-              Date de référence
             </th>
             <th scope="col" className={colClasses}>
               Etat

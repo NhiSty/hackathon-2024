@@ -58,33 +58,8 @@ export function TableItem({ data, onAction }) {
       </td>
 
       <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-        <p className="text-gray-900 whitespace-nowrap text-center">J+1</p>
-      </td>
-
-      <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-        <p className="text-gray-900 whitespace-nowrap text-center">
-          Test classique
-        </p>
-      </td>
-
-      <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
         <p className="text-gray-900 whitespace-nowrap text-nowrap">
-          06 00 00 00 00
-        </p>
-      </td>
-
-      <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-        <p className="text-gray-900 whitespace-nowrap">Ok</p>
-      </td>
-
-      <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-        <p className="text-gray-900">
-          <time
-            dateTime="2020-09-12 12:00"
-            className="text-center whitespace-nowrap"
-          >
-            12/09/2020 12:00
-          </time>
+          {data.cellPhone}
         </p>
       </td>
 
@@ -94,25 +69,25 @@ export function TableItem({ data, onAction }) {
             aria-hidden="true"
             className="absolute inset-0 bg-green-200 rounded-full opacity-50"
           ></span>
-          <span className="relative">active</span>
+          <span className="relative">A FAIRE</span>
         </span>
       </td>
 
       <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-        <p className="text-gray-900 whitespace-nowrap">1</p>
+        <p className="text-gray-900 whitespace-nowrap">{data.numOperation}</p>
       </td>
 
       <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-        <p className="text-gray-900 whitespace-nowrap">Doe</p>
+        <p className="text-gray-900 whitespace-nowrap">{data.name}</p>
       </td>
 
       <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
-        <p className="text-gray-900 whitespace-nowrap">John</p>
+        <p className="text-gray-900 whitespace-nowrap">{data.firstname}</p>
       </td>
 
       <td className="px-5 py-5 text-sm bg-white border-b border-gray-200">
         <p className="text-gray-900 whitespace-nowrap">
-          <time dateTime="2020-01-07">07/01/2020</time>
+          <time dateTime="2020-01-07">{data.birthdDate}</time>
         </p>
       </td>
     </tr>

@@ -7,7 +7,7 @@ const app = express();
 app.get(
   "/users",
   asyncHandler(async (req, res) => {
-    const users = await prisma.user.findMany();
+    const users = await prisma.patient.findMany();
     res.json(users);
   })
 );
@@ -17,7 +17,7 @@ app.get(
   asyncHandler(async (req, res) => {
     const { id } = req.params;
 
-    const user = await prisma.user.findUnique({
+    const user = await prisma.patient.findUnique({
       where: {
         id: parseInt(id),
       },

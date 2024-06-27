@@ -8,12 +8,12 @@ async function main() {
   for (const item of data) {
     const index = Math.random().toString(36);
     console.log(item);
-    const newUser = await prisma.user.create({
+    const newUser = await prisma.patient.create({
       data: {
         name: "Hackathon" + index,
         email: "hackathon" + index + "@gmail.com",
         firstname: "hacka" + index,
-        birthDate: Date.now(),
+        birthDate: new Date(Date.now()),
         cellphone: index + "003",
         numOperation: index,
       },
