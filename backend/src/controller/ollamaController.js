@@ -84,7 +84,7 @@ export async function iaMistral(qst, answer) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "mistral",
+      model: "llama3",
       prompt:
         "Tu es un outils de catégorisation de messages en milieu" +
         " hospitalier. Dans le cadre de tes fonctions tu recevra un " +

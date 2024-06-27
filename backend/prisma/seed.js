@@ -1,4 +1,4 @@
-import {PrismaClient} from '@prisma/client'
+import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
@@ -7,8 +7,12 @@ async function main() {
     await prisma.patient.create({
         data: {
             email: "test@test.com",
-            password: "test",
             name: "test",
+            cellphone: "123456789",
+            birthDate: new Date(),
+            firstname: "test",
+            numOperation: "0",
+
         },
     })
 
