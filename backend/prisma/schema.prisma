@@ -36,7 +36,7 @@ model Question {
 }
 
 model Answer {
-  id           Int           @id @default(autoincrement())
+  id           Int           @id @unique @default(autoincrement())
   content      String
   author       Patient       @relation(fields: [authorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   authorId     Int

@@ -1,21 +1,23 @@
 import express from "express";
 import { prisma } from "../database/index.js";
 import { categorizationPrompt, notationPrompt, simplificationPrompt } from "../prompt.js";
+import hacaktonData from "../../utils/hackathonData.json" with {type: "json"}
 
 const app = express();
 
 app.post("/", async (req, res) => {
-  const { qst, answer, rating } = req.body;
+  let { qst, answer, rating } = req.body;
 
   if (!qst || !answer) {
-    res.status(400).send("Missing parameters");
-    return;
+    // use the hackathon data to create a random question and answer
+    const randomIndex = Math.floor(Math.random() * hacaktonData.length);
+    const randomData = hacaktonData[randomIndex];
+    qst = randomData.question;
+    answer = randomData.reponse;
   }
 
 
   const iaResponse = await iaMistral(categorizationPrompt(qst, answer));
-
-  console.log("IA RESPONSE " + iaResponse);
 
   const user = await prisma.patient.findUnique({
     where: {

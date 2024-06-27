@@ -14,11 +14,14 @@ export function Table({ data }) {
     switch (params.action) {
       case "showMessage":
         setModalData(params.data);
+        console.log("showMessage", params.data);
         break;
       default:
         break;
     }
   }, []);
+
+
 
   return (
     <>
@@ -62,6 +65,7 @@ export function Table({ data }) {
         itemsPerPage={10}
         onPageChange={(page) => {}}
       />
+
     </>
   );
 }

@@ -33,11 +33,8 @@ TabViewer.propTypes = {
 // urgence
 function Table1({ data }) {
   const transformedData = useMemo(() => {
-    return data.filter(user => 
-      user.answers.some(answer => 
-        answer.simplifiedIA && answer.simplifiedIA.category === 'URGENCE'
-      )
-    );
+    return data.filter(user => user?.category === 'URGENCE');
+  
   }, [data]);
   
   return <Table data={transformedData} />;
@@ -46,11 +43,7 @@ function Table1({ data }) {
 //ATTENTION REQUISE
 function Table2({ data }) {
   const transformedData = useMemo(() => {
-    return data.filter(user => 
-      user.answers.some(answer => 
-        answer.simplifiedIA && answer.simplifiedIA.category === 'ATTENTION REQUISE'
-      )
-    );
+    return data.filter(user => user?.category === 'ATTENTION REQUISE');
   }, [data]);
 
   return <Table data={transformedData} />;
@@ -59,11 +52,8 @@ function Table2({ data }) {
 // TVB
 function Table3({ data }) {
   const transformedData = useMemo(() => {
-    return data.filter(user => 
-      user.answers.some(answer => 
-        answer.simplifiedIA && answer.simplifiedIA.category === 'TVB'
-      )
-    );
+    return data.filter(user => user?.category === 'TVB');
+    
   }, [data]);
 
   return <Table data={transformedData} />;
@@ -72,11 +62,7 @@ function Table3({ data }) {
 // N/A
 function Table4({ data }) {
   const transformedData = useMemo(() => {
-    return data.filter(user => 
-      user.answers.some(answer => 
-        answer.simplifiedIA && answer.simplifiedIA.category === 'N/A'
-      )
-    );
+    return data.filter(user => user?.category ===  'N/A');
   }, [data]);
 
   return <Table data={transformedData} />;
