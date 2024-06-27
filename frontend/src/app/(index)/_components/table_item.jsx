@@ -1,9 +1,5 @@
 import {
-  CircleIcon,
-  HourglassIcon,
   MessageCircleIcon,
-  PauseIcon,
-  PlayIcon,
 } from "lucide-react";
 import PropTypes from "prop-types";
 

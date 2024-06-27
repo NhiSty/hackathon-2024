@@ -75,7 +75,7 @@ export function UserModal({ userId, onClose }) {
                 </div>
 
                 <div className="col-span-2 col-start-2 justify-self-end">
-                  <span className="inline-block rounded-full bg-orange-300 px-3 py-1 text-sm font-semibold text-gray-900">{data.simplifiedMessages[0].category}</span>
+                  <span className="inline-block rounded-full bg-orange-300 px-3 py-1 text-sm font-semibold text-gray-900">{data.simplifiedMessages[0].content}</span>
                 </div>
               </div>
             </ModalContent>
