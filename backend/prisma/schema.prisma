@@ -53,6 +53,7 @@ model SimplifiedIA {
   answerId   Int      @unique
   category   String
   confidence Int
+  content    String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
