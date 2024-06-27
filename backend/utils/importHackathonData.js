@@ -7,7 +7,6 @@ async function main() {
 
   for (const item of data) {
     const index = Math.random().toString(36);
-    console.log(item);
     const newUser = await prisma.user.create({
       data: {
         name: "Hackathon" + index,
@@ -30,7 +29,7 @@ async function main() {
       },
     });
 
-    const iaResponse = await iaMistral(item.question, item.reponse);
+    /*const iaResponse = await iaMistral(item.question, item.reponse);
 
     await prisma.simplifiedIA.create({
       data: {
@@ -42,7 +41,7 @@ async function main() {
         category: iaResponse.category,
         confidence: parseInt(iaResponse.confidence),
       },
-    });
+    });*/
   }
 
   console.log("Données importées avec succès");
