@@ -12,7 +12,10 @@ async function main() {
       data: {
         name: "Hackathon" + index,
         email: "hackathon" + index + "@gmail.com",
-        password: "password",
+        firstname: "hacka" + index,
+        birthDate: Date.now(),
+        cellphone: index + "003",
+        numOperation: index,
       },
     });
 

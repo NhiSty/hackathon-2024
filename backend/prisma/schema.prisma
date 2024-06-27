@@ -13,14 +13,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
-  password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  answers   Answer[]
+model Patient {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  name         String
+  firstname    String
+  birthDate    DateTime
+  cellphone    String?
+  numOperation String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  answers      Answer[]
 }
 
 model Question {
@@ -34,7 +37,7 @@ model Question {
 model Answer {
   id           Int           @id @default(autoincrement())
   content      String
-  author       User          @relation(fields: [authorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  author       Patient          @relation(fields: [authorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   authorId     Int
   question     Question      @relation(fields: [questionId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   questionId   Int
