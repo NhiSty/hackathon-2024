@@ -1,9 +1,8 @@
-import app from '../controller/ollamaController.js';
-import express from 'express';
-
+import app from "../controller/ollamaController.js";
+import express from "express";
 
 const ollamaRouter = express.Router();
 
-ollamaRouter.use('/api/v1', app);
+ollamaRouter.use("/api/v1", app);
 
 export default ollamaRouter;

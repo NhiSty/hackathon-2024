@@ -5,7 +5,7 @@ import { cn } from "@/utils/cn";
 
 export function Pagination({ totalItems, itemsPerPage, onPageChange }) {
   const [currentPage, setCurrentPage] = useState(1);
-
+  // Using `useMemo` to avoid recalculating the total number of pages on every render-cycle
   const totalPages = useMemo(
     () => Math.ceil(totalItems / itemsPerPage),
     [totalItems, itemsPerPage]

@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 
 export function Navbar({ onTableChange, table }) {
   const tabNames = ["Urgence", "Attention requise", "N/A", "TVB"];
+  const tabDesk = [null, null, "Non analysé", "Tout va bien"];
 
   return (
     <nav className="flex flex-row gap-4 justify-center w-full border-b border-gray-200 bg-white">
@@ -21,6 +22,7 @@ export function Navbar({ onTableChange, table }) {
                   }
                 )}
                 aria-current={i + 1 === table ? "page" : undefined}
+                title={tabDesk[i]}
               >
                 {name}
               </button>
