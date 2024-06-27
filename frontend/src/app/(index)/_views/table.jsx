@@ -27,7 +27,7 @@ export function Table({ data }) {
         <thead>
           <tr>
             <th scope="col" className={colClasses}>
-              <span className="sr-only">Actions</span>
+              <span className="col">Actions</span>
             </th>
             <th scope="col" className={colClasses}>
               Tél. Portable

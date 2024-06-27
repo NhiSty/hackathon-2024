@@ -3,7 +3,7 @@ import { cn } from "@/utils/cn";
 import PropTypes from "prop-types";
 
 export function Navbar({ onTableChange, table }) {
-  const tabNames = ["Urgence", "Attention requise", "N/A", "TVB"];
+  const tabNames = ["Urgence", "Attention requise", "TVB", "N/A"];
   const tabDesk = [null, null, "Non analysé", "Tout va bien"];
 
   return (

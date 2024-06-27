@@ -41,7 +41,7 @@ export function Modal({ open, openChange, children }) {
       className="backdrop:bg-black/40 rounded-xl border-none shadow-md p-8 pb-4 max-w-screen-md w-full"
     >
       <form
-        className="max-h-72 overflow-auto relative"
+        className="max-h-96 overflow-auto relative"
         method="dialog"
         onSubmit={onSubmit}
       >
@@ -75,7 +75,7 @@ ModalHeader.propTypes = {
 };
 
 export function ModalContent({ children }) {
-  return <main className="py-4">{children}</main>;
+  return <main className="py-2">{children}</main>;
 }
 
 ModalContent.propTypes = {
