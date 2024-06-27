@@ -13,21 +13,6 @@ app.get(
 );
 
 app.get(
-  '/users/:id',
-  asyncHandler(async (req, res) => {
-    const { id } = req.params;
-
-    const user = await prisma.patient.findUnique({
-      where: {
-        id: parseInt(id),
-      },
-    });
-
-    res.json(user);
-  })
-);
-
-app.get(
   '/users/:id/messages',
   asyncHandler(async (req, res) => {
     const { id } = req.params;
@@ -78,4 +63,19 @@ app.get(
   })
 );
 
+app.get(
+  '/users/all',
+  asyncHandler(async (req, res) => {
+    const users = await prisma.patient.findMany({
+      include: {
+        answers: {
+          include: {
+            simplifiedIA: true
+          }
+        }
+      }
+    });
+    res.json(users);
+  }),
+);
 export default app;
