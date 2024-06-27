@@ -7,11 +7,14 @@ async function main() {
 
   for (const item of data) {
     const index = Math.random().toString(36);
-    const newUser = await prisma.user.create({
+    const newUser = await prisma.patient.create({
       data: {
         name: "Hackathon" + index,
         email: "hackathon" + index + "@gmail.com",
-        password: "password",
+        firstname: "hacka" + index,
+        birthDate: new Date(Date.now()),
+        cellphone: index + "003",
+        numOperation: index,
       },
     });
 
@@ -29,7 +32,7 @@ async function main() {
       },
     });
 
-    /*const iaResponse = await iaMistral(item.question, item.reponse);
+    const iaResponse = await iaMistral(item.question, item.reponse);
 
     await prisma.simplifiedIA.create({
       data: {
@@ -41,7 +44,7 @@ async function main() {
         category: iaResponse.category,
         confidence: parseInt(iaResponse.confidence),
       },
-    });*/
+    });
   }
 
   console.log("Données importées avec succès");
