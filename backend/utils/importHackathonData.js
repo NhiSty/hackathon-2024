@@ -7,7 +7,6 @@ async function main() {
 
   for (const item of data) {
     const index = Math.random().toString(36);
-    console.log(item);
     const newUser = await prisma.patient.create({
       data: {
         name: "Hackathon" + index,
