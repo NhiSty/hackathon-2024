@@ -35,7 +35,7 @@ export function TableItem({ data, onAction }) {
           </button>
           <button
             type="button"
-            onClick={() => onAction({ action: "showMessage", data })}
+            onClick={() => onAction({ action: "showMessage", data: data.id })}
           >
             <MessageCircleIcon className="text-gray-700 size-5" />
           </button>

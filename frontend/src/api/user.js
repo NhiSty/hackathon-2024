@@ -10,11 +10,11 @@ export async function fetchUsersList() {
 }
 
 export async function fetchUser(id) {
-  const response = await fetch(`http://localhost:8000/api/v1/users/${id}`);
+  const response = await fetch(`http://localhost:8000/api/v1/users/${id}/messages`);
 
   if (!response.ok) {
     return Promise.reject(response);
   }
 
-  return await response.json();
+  return response.json();
 }
