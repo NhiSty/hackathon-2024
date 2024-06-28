@@ -61,16 +61,16 @@ app.get(
 
       }
     );
-
+    
 
     const formatedData = answers.map((answer) => {
       return {
         id: answer.id,
         content: answer.content,
         question: answer.question.content,
-        simplifiedIA: answer.simplifiedIA.content,
-        category: answer.simplifiedIA.category,
-        confidence: answer.simplifiedIA.confidence,
+        simplifiedIA: answer?.simplifiedIA?.content ?? "Pas de réponse simplifiée",
+        category: answer?.simplifiedIA?.category ?? "N/A",
+        confidence: answer?.simplifiedIA?.confidence ?? "0",
         email: answer.author.email,
         name: answer.author.name,
         firstname: answer.author.firstname,
@@ -80,6 +80,8 @@ app.get(
         userId: answer.author.id,
       }
     });
+
+    
 
     res.json(formatedData).status(200);
   }),

@@ -2,10 +2,10 @@
 
 import ReactECharts from "echarts-for-react";
 
-export function StatsChart() {
+export function StatsChart({data}) {
   const options = {
     title: {
-      text: "A Case of Doughnut Chart",
+      text: "sdev le bg",
       left: "center",
       top: "center",
     },
@@ -14,17 +14,17 @@ export function StatsChart() {
         type: "pie",
         data: [
           {
-            value: 335,
-            name: "A",
+            value: data.numberOfRatingBetweenZeroAndFive,
+            name: "numberOfRatingBetweenZeroAndFive",
           },
           {
-            value: 234,
-            name: "B",
+            value: data.numberOfRatingBetweenFiveAndTen,
+            name: "numberOfRatingBetweenFiveAndTen",
           },
-          {
-            value: 1548,
-            name: "C",
-          },
+          // {
+          //   value: 1548,
+          //   name: "C",
+          // },
         ],
         radius: ["40%", "70%"],
       },
