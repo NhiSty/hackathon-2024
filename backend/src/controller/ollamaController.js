@@ -18,7 +18,6 @@ app.post("/", async (req, res) => {
     answer = randomData.reponse;
   }
 
-
   const iaResponse = await iaMistral(categorizationPrompt(qst, answer));
 
   console.log(iaResponse);

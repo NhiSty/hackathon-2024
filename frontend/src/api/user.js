@@ -22,7 +22,6 @@ export async function fetchUser(id) {
 export async function fetchUsersData() {
   const response = await fetch(`http://localhost:8000/api/v1/users/all`);
 
-  console.log("toto response", response)
   if (!response.ok) {
     return Promise.reject(response);
   }
