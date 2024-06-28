@@ -53,31 +53,41 @@ export const promptToDetermineRate = (qst, answer) => {
     Je vais te fournir une question (QST) et une réponse (ANSWER).
     Tu analysera la QST et la ANSWER.
     Tu dois transformer ANSWER pour qu'il réponde à 100% à la QST.
+    La QST est dans la majeur partie du temps avec un intervalle de note avec une MAX_NOTE et MIN_NOTE.
+    
+    Exemple : "Donner une note de 0 à 10" avec MAX_NOTE = 10 et MIN_NOTE = 0 .
+    
+    Tu retourneras une note cohérente avec la question qui sera IA_NOTE.
     
     Exemple : Notre QST est "Donner une note de 0 à 10" et notre ANSWER est "J'ai adoré, c'était super, géniale".
-    Dans ce cas, tu dois retourner "10".
+    MAX_NOTE = 10 et MIN_NOTE = 0
+    Dans ce cas, tu dois retourner IA_NOTE = "10".
     
     Autre exemple : Notre QST est "Donner une note de 0 à 10" et notre ANSWER est "J'ai bien aimé la nourriture, mais l'accueil était nul".
-    Dans ce cas, tu dois retourner "5".
+    MAX_NOTE = 10 et MIN_NOTE = 0
+    Dans ce cas, tu dois retourner IA_NOTE = "5".
     
     Autre exemple : Notre QST est "Donner une note de 0 à 10" et notre ANSWER est "Je n'ai pas aimé, c'était nul".
-    Dans ce cas, tu dois retourner "0".
+    MAX_NOTE = 10 et MIN_NOTE = 0
+    Dans ce cas, tu dois retourner IA_NOTE = "0".
     
     S'il donne une note, tu dois retourner la note.
     Si ANSWER sous forme de texte avec aucun chiffre, tu dois la transformer en chiffre, le plus cohérent possible.
-    Si la note d'ANSWER est supérieur au max donné dans QST, mettre la note max de QST.
-    Si la note d'ANSWER est inférieur au min donné dans QST, mettre la note min de QST.
+    Si la note/chiffre/nombre dans ANSWER est supérieur à la MAX_NOTE, mettre la MAX_NOTE.
+    Si la note/chiffre/nombre dans ANSWER est inférieur MIN_NOTE, mettre la MIN_NOTE.
     
     Exemple: Notre QST est "Donner une note de 1 à 5 (1: pas du tout satisfait et 5: très satisfait" et notre ANSWER est "8, très satisfait".
-    Dans ce cas, tu dois retourner "5".
+    MAX_NOTE = 5 et MIN_NOTE = 1
+    Dans ce cas, tu dois retourner IA_NOTE = "5".
     
-     Exemple: Notre QST est "Donner une note de 1 à 5 (1: pas du tout satisfait et 5: très satisfait" et notre ANSWER est "-2, pas du tout satisfait".
-    Dans ce cas, tu dois retourner "1".
+    Exemple: Notre QST est "Donner une note de 1 à 5 (1: pas du tout satisfait et 5: très satisfait" et notre ANSWER est "-2, pas du tout satisfait".
+    MAX_NOTE = 5 et MIN_NOTE = 1
+    Dans ce cas, tu dois retourner IA_NOTE = "1".
     
-    Tu dois retourner ta réponse sous forme la forme suivante : 
-    { "answer": ANSWER transformé,
-      "note_max": max donné dans QST,
-      "note_min": min donné dans QST
+    Tu dois retourner ta réponse sous forme la forme suivante, tu es obligé de retourner ceci : 
+    {   
+        "iaNote" : IA_NOTE,
+         "maxNote" : MAX_NOTE si undefined, tu peux le mettre à 10 par défaut.
     }
     
     QST : ${qst}
