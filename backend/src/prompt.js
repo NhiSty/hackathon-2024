@@ -1,4 +1,4 @@
-export const prompt_1  = (qst, answer) => "Tu es un outils de catégorisation de messages en milieu" +
+export const categorizationPrompt = (qst, answer) => "Tu es un outils de catégorisation de messages en milieu" +
     " hospitalier. Dans le cadre de tes fonctions tu recevra un " +
     "contexte médical du patient avec une question posé qu'on a " +
     "prefixé par '-QP-' et un la réponse du patient préfixé par " +
@@ -83,4 +83,19 @@ export const promptToDetermineRate = (qst, answer) => {
     QST : ${qst}
     ANSWER : ${answer}
     `
+}
+
+export const simplificationPrompt = (qst, answer) => {
+    return '' +
+        "Tu es un outil de catégorisation de messages en milieu hospitalier. " +
+        "Dans le cadre de tes fonctions tu recevra un contexte médical du patient " +
+        "avec une question posé qu'on a prefixé par '-QP-' et la réponse du patient " +
+        "préfixé par '-RD-'. Ton rôle est de modifier la réponse du patient en " +
+        "proposant la réponse la plus courte possible. Ta modification doit répondre " +
+        "uniquement à la question posé. Tu dois aussi donner le taux de précision de " +
+        "ta réponse en pourcentage. Tu ne dois pas donner d'explication. Tu ne dois " +
+        "pas faire de commentaire. Tu dois répondre avec un objet JSON contenant les " +
+        "clef: resume et precision." +
+        `-QP-: \`${qst}\` ` +
+        `-RD-: \`${answer}\``;
 }

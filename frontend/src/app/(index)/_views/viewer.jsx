@@ -1,13 +1,13 @@
 import PropTypes from "prop-types";
 import { Table } from "./table.jsx";
-import { useEffect, useState } from "react";
-import { fetchUsersList } from "@/api/user.js";
+import { useEffect, useState, useMemo } from "react";
+import { fetchUsersData } from "@/api/user.js";
 
 export function TabViewer({ table }) {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    fetchUsersList()
+    fetchUsersData()
       .then((data) => setUsers(data))
       .catch((err) => console.log(err));
   }, []);
@@ -30,19 +30,40 @@ TabViewer.propTypes = {
   table: PropTypes.number.isRequired,
 };
 
+// urgence
 function Table1({ data }) {
-  console.log(data);
-  return <Table data={data} />;
+  const transformedData = useMemo(() => {
+    return data.filter(user => user?.category === 'URGENCE');
+  
+  }, [data]);
+  
+  return <Table data={transformedData} />;
 }
 
+//ATTENTION REQUISE
 function Table2({ data }) {
-  return <Table data={data} />;
+  const transformedData = useMemo(() => {
+    return data.filter(user => user?.category === 'ATTENTION REQUISE');
+  }, [data]);
+
+  return <Table data={transformedData} />;
 }
 
+// TVB
 function Table3({ data }) {
-  return <Table data={data} />;
+  const transformedData = useMemo(() => {
+    return data.filter(user => user?.category === 'TVB');
+    
+  }, [data]);
+
+  return <Table data={transformedData} />;
 }
 
+// N/A
 function Table4({ data }) {
-  return <Table data={data} />;
+  const transformedData = useMemo(() => {
+    return data.filter(user => user?.category ===  'N/A');
+  }, [data]);
+
+  return <Table data={transformedData} />;
 }

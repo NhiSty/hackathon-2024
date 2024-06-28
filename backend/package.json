@@ -11,7 +11,7 @@
     "db:migrate": "prisma migrate dev",
     "db:sync": "prisma db push",
     "db:seed": "node ./prisma/seed.js",
-    "format": "prettier --write ."
+    "format": "prettier -w ."
   },
   "engines": {
     "node": "^20.0.0"

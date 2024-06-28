@@ -1,21 +1,25 @@
 import express from "express";
 import { prisma } from "../database/index.js";
-import {prompt_1, promptToDetermineRate, promptToDetermineRatingQuestion} from "../prompt.js";
+import { categorizationPrompt, notationPrompt, simplificationPrompt, promptToDetermineRatingQuestion, promptToDetermineRate } from "../prompt.js";
+import hacaktonData from "../../utils/hackathonData.json" with {type: "json"}
 
 const app = express();
 
 app.post("/", async (req, res) => {
-  const { qst, answer, rating } = req.body;
+  let { qst, answer, rating } = req.body;
 
   console.log(qst, answer, rating);
 
   if (!qst || !answer) {
-    res.status(400).send("Missing parameters");
-    return;
+    // use the hackathon data to create a random question and answer
+    const randomIndex = Math.floor(Math.random() * hacaktonData.length);
+    const randomData = hacaktonData[randomIndex];
+    qst = randomData.question;
+    answer = randomData.reponse;
   }
 
 
-  const iaResponse = await iaMistral(prompt_1(qst, answer));
+  const iaResponse = await iaMistral(categorizationPrompt(qst, answer));
 
   console.log(iaResponse);
 
@@ -32,6 +36,7 @@ app.post("/", async (req, res) => {
   const question = await prisma.question.create({
     data: {
       content: qst,
+      isRating: rating ? true : false,
     },
   });
 
@@ -59,15 +64,18 @@ app.post("/", async (req, res) => {
     return res.status(422).send("Error creating answer");
   }
 
+  const iaResponseSimplify = await iaMistral(simplificationPrompt(qst, answer));
+
   const simplifiedAnswer = await prisma.simplifiedIA.create({
     data: {
+      content: iaResponseSimplify.resume,
       answer: {
         connect: {
           id: answerReq.id,
         },
       },
       category: iaResponse.category,
-      confidence: parseInt(iaResponse.confidence),
+      confidence: `${iaResponseSimplify.precision}%`,
     },
   });
 
@@ -80,7 +88,7 @@ app.post("/", async (req, res) => {
 
 app.post('/test', async (req, res) => {
 
-  const questions = await prisma.question.findMany( {
+  const questions = await prisma.question.findMany({
     include: {
       answers: true,
     },
@@ -146,7 +154,7 @@ export async function iaMistral(prompt) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "mistral",
+      model: "llama3",
       prompt: prompt,
       stream: false,
       format: "json",

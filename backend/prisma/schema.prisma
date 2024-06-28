@@ -33,10 +33,11 @@ model Question {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   answers   Answer[]
+  isRating  Boolean  @default(false)
 }
 
 model Answer {
-  id           Int           @id @default(autoincrement())
+  id           Int           @id @unique @default(autoincrement())
   content      String
   author       Patient       @relation(fields: [authorId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   authorId     Int
@@ -52,7 +53,8 @@ model SimplifiedIA {
   answer     Answer   @relation(fields: [answerId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   answerId   Int      @unique
   category   String
-  confidence Int
+  confidence String?
+  content    String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
