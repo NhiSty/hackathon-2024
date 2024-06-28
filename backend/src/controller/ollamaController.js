@@ -1,12 +1,14 @@
 import express from "express";
 import { prisma } from "../database/index.js";
-import { categorizationPrompt, notationPrompt, simplificationPrompt } from "../prompt.js";
-import hacaktonData from "../../utils/hackathonData.json" with {type: "json"}
+import { categorizationPrompt, simplificationPrompt, promptToDetermineRatingQuestion, promptToDetermineRate } from "../prompt.js";
+import hacaktonData from "../../utils/hackathonData.json" assert {type: "json"}
 
 const app = express();
 
 app.post("/", async (req, res) => {
   let { qst, answer, rating } = req.body;
+
+  console.log(qst, answer, rating);
 
   if (!qst || !answer) {
     const randomIndex = Math.floor(Math.random() * hacaktonData.length);
@@ -15,8 +17,9 @@ app.post("/", async (req, res) => {
     answer = randomData.reponse;
   }
 
-
   const iaResponse = await iaMistral(categorizationPrompt(qst, answer));
+
+  console.log(iaResponse);
 
   const user = await prisma.patient.findUnique({
     where: {
@@ -81,7 +84,7 @@ app.post("/", async (req, res) => {
   res.status(200).send("Data created successfully");
 });
 
-app.post('/test', async (req, res) => {
+app.post('/kpi', async (req, res) => {
 
   const questions = await prisma.question.findMany({
     include: {
@@ -101,11 +104,60 @@ app.post('/test', async (req, res) => {
     };
   });
 
-  const iaResponse = await iaMistral(notationPrompt(JSON.stringify(questionsFormatted)));
+  const findRatingQuestionByIA = [];
 
-  console.log(iaResponse);
+  for (const question of questionsFormatted) {
+    const response = await iaMistral(promptToDetermineRatingQuestion(question.question, question.id));
 
-  res.send("ok").status(200);
+    if (response.isRating) {
+      findRatingQuestionByIA.push(question.id);
+    }
+  }
+
+  const ratingAnswers = await prisma.answer.findMany({
+    where: {
+      questionId: {
+        in: findRatingQuestionByIA,
+      },
+    },
+  });
+
+  if (!ratingAnswers) {
+    return res.status(404).send("Rating answers not found");
+  }
+
+  const ratingQuestionAndAnswer = findRatingQuestionByIA.map((id) => {
+    return questionsFormatted.find((question) => question.id === id);
+  });
+
+  const ratingAnswersIA = [];
+  for (const questionAndAnswer of ratingQuestionAndAnswer) {
+    const response = await iaMistral(promptToDetermineRate(questionAndAnswer.question, questionAndAnswer.answer));
+    const { iaNote, maxNote } = response;
+    const noteInt = typeof iaNote === 'string' ? parseInt(iaNote) : iaNote;
+    const maxNoteInt = typeof maxNote === 'string' ? parseInt(maxNote) : maxNote;
+
+    ratingAnswersIA.push({
+      question: questionAndAnswer.question,
+      answer: questionAndAnswer.answer,
+      simplifiedRatingAnswer:  Math.round((noteInt / maxNoteInt) * 10),
+    });
+  }
+
+  const ratingBetweenZeroAndFive = ratingAnswersIA.filter((answer) => answer.simplifiedRatingAnswer >= 0 && answer.simplifiedRatingAnswer <= 5);
+  const ratingBetweenSixAndTen = ratingAnswersIA.filter((answer) => answer.simplifiedRatingAnswer >= 6 && answer.simplifiedRatingAnswer <= 10);
+
+  const kpi = {
+    numberOfRatingQuestions: findRatingQuestionByIA.length,
+    numberOfRatingQuestionsWithAnswer: ratingAnswersIA.length,
+    ratingBetweenZeroAndFive,
+    ratingBetweenSixAndTen,
+    numberOfRatingBetweenZeroAndFive: ratingBetweenZeroAndFive.length,
+    numberOfRatingBetweenSixAndTen: ratingBetweenSixAndTen.length,
+  }
+
+
+  res.send(kpi).status(200);
 
 })
 
@@ -118,11 +170,16 @@ export async function iaMistral(prompt) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "llama3",
+      model: "mistral",
       prompt: prompt,
       stream: false,
+      format: "json",
     }),
   });
+
+  if (!response.ok) {
+    throw new Error("Error fetching IA data");
+  }
 
   const data = await response.json();
   return JSON.parse(data.response);

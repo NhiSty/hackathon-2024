@@ -29,10 +29,10 @@ model Patient {
 model Question {
   id        Int      @id @default(autoincrement())
   content   String
+  isRating  Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   answers   Answer[]
-  isRating  Boolean  @default(false)
 }
 
 model Answer {
