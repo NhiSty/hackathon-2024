@@ -10,8 +10,6 @@ export function Table({ data }) {
   const [startIndex, setStartIndex] = useState(0);
   const [endIndex, setEndIndex] = useState(rowPerPage);
 
-  console.log(data.length)
-
   const colClasses =
     "px-5 py-3 text-sm font-normal text-center text-gray-800 uppercase bg-white border-b border-gray-200";
 
