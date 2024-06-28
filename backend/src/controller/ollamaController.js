@@ -9,7 +9,6 @@ app.post("/", async (req, res) => {
   let { qst, answer, rating } = req.body;
 
   if (!qst || !answer) {
-    // use the hackathon data to create a random question and answer
     const randomIndex = Math.floor(Math.random() * hacaktonData.length);
     const randomData = hacaktonData[randomIndex];
     qst = randomData.question;
