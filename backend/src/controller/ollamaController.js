@@ -1,21 +1,27 @@
 import express from "express";
 import { prisma } from "../database/index.js";
-import { categorizationPrompt, notationPrompt, simplificationPrompt } from "../prompt.js";
+import { categorizationPrompt, notationPrompt, simplificationPrompt, promptToDetermineRatingQuestion, promptToDetermineRate } from "../prompt.js";
+import hacaktonData from "../../utils/hackathonData.json" with {type: "json"}
 
 const app = express();
 
 app.post("/", async (req, res) => {
-  const { qst, answer, rating } = req.body;
+  let { qst, answer, rating } = req.body;
+
+  console.log(qst, answer, rating);
 
   if (!qst || !answer) {
-    res.status(400).send("Missing parameters");
-    return;
+    // use the hackathon data to create a random question and answer
+    const randomIndex = Math.floor(Math.random() * hacaktonData.length);
+    const randomData = hacaktonData[randomIndex];
+    qst = randomData.question;
+    answer = randomData.reponse;
   }
 
 
   const iaResponse = await iaMistral(categorizationPrompt(qst, answer));
 
-  console.log("IA RESPONSE " + iaResponse);
+  console.log(iaResponse);
 
   const user = await prisma.patient.findUnique({
     where: {
@@ -100,11 +106,42 @@ app.post('/test', async (req, res) => {
     };
   });
 
-  const iaResponse = await iaMistral(notationPrompt(JSON.stringify(questionsFormatted)));
+  const findRatingQuestionByIA = [];
 
-  console.log(iaResponse);
+  for (const question of questionsFormatted) {
+    const response = await iaMistral(promptToDetermineRatingQuestion(question.question, question.id));
 
-  res.send("ok").status(200);
+    if (response.isRating) {
+      findRatingQuestionByIA.push(question.id);
+    }
+  }
+
+  const ratingAnswers = await prisma.answer.findMany({
+    where: {
+      questionId: {
+        in: findRatingQuestionByIA,
+      },
+    },
+  });
+
+  const ratingQuestionAndAnswer = findRatingQuestionByIA.map((id) => {
+    return questionsFormatted.find((question) => question.id === id);
+  });
+
+  const ratingAnswersIA = [];
+  for (const questionAndAnswer of ratingQuestionAndAnswer) {
+    const response = await iaMistral(promptToDetermineRate(questionAndAnswer.question, questionAndAnswer.answer));
+    console.log({
+        question: questionAndAnswer.question,
+        answer: questionAndAnswer.answer,
+        response,
+    })
+    ratingAnswersIA.push(response);
+  }
+
+
+
+  res.send(ratingAnswersIA).status(200);
 
 })
 
@@ -120,6 +157,7 @@ export async function iaMistral(prompt) {
       model: "llama3",
       prompt: prompt,
       stream: false,
+      format: "json",
     }),
   });
 

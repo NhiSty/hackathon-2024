@@ -16,66 +16,72 @@ app.get(
   '/users/:id/messages',
   asyncHandler(async (req, res) => {
     const { id } = req.params;
-    const userId = parseInt(id);
 
 
-    const patient = await prisma.patient.findUnique({
-      where: { id: userId },
-    });
+    const answers = await prisma.answer.findUnique(
+      {
+        include: {
+          author: true,
+          question: true,
+          simplifiedIA: true,
+        },
+        where: {
+          id: parseInt(id),
+        },
 
-    if (!patient) {
-      return res.status(404).json({ error: 'User not found' });
+      }
+    );
+
+    const formatedData = {
+      id: answers.id,
+      response: answers.content,
+      question: answers.question.content,
+      simplifiedMessages: answers.simplifiedIA.content,
+      category: answers.simplifiedIA.category,
+      firstName: answers.author.firstname,
+      name: answers.author.name,
+      confidence: answers.simplifiedIA.confidence,
     }
 
 
-    const answers = await prisma.answer.findMany({
-      where: { authorId: userId },
-    });
-
-
-    const questions = await Promise.all(
-      answers.map(async (answer) => {
-        const question = await prisma.question.findUnique({
-          where: { id: answer.questionId },
-        });
-        return { ...answer, question };
-      })
-    );
-
-
-    const simplifiedMessages = await Promise.all(
-      answers.map(async (answer) => {
-        const simplifiedMessage = await prisma.simplifiedIA.findUnique({
-          where: { answerId: answer.id },
-        });
-        return simplifiedMessage;
-      })
-    );
-
-
-    const response = {
-      patient,
-      answers: questions,
-      simplifiedMessages: simplifiedMessages.filter((msg) => msg !== null),
-    };
-
-    res.json(response);
+    res.json(formatedData).status(200);
   })
 );
 
 app.get(
   '/users/all',
   asyncHandler(async (req, res) => {
-    const users = await prisma.patient.findMany({
-      include: {
-        answers: {
-          include: {
-            simplifiedIA: true
-          }
-        }
+    const answers = await prisma.answer.findMany(
+      {
+        include: {
+          author: true,
+          question: true,
+          simplifiedIA: true,
+        },
+
+      }
+    );
+
+
+    const formatedData = answers.map((answer) => {
+      return {
+        id: answer.id,
+        content: answer.content,
+        question: answer.question.content,
+        simplifiedIA: answer.simplifiedIA.content,
+        category: answer.simplifiedIA.category,
+        confidence: answer.simplifiedIA.confidence,
+        email: answer.author.email,
+        name: answer.author.name,
+        firstname: answer.author.firstname,
+        birthdate: answer.author.birthdate,
+        cellphone: answer.author.cellphone,
+        numOperation: answer.author.numOperation,
+        userId: answer.author.id,
       }
     });
-    res.json(users);
+
+    res.json(formatedData).status(200);
   }),
 );
 export default app;
