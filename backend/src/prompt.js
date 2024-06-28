@@ -20,17 +20,67 @@ export const prompt_1  = (qst, answer) => "Tu es un outils de catégorisation de
     `-RD-: \`${answer}\``;
 
 
-export const prompt_2 = (arrayOfQuestionAnswer) => {
-    return '' +
-        'Tu es une IA avancée en traitement de texte. ' +
-        'Je vais te fournir un tableau d\'objets, chacun' +
-        ' contenant un "id", une "question" et une "réponse".`' +
-        ' Ta tâche est de complètement parcourir ce tableau d\'objet et de retourner' +
-        ' un maximum de questions qui inclus des mots du champ lexical de la satisfaction et de l\'évalutation' +
-        ' à propos d\' un service ou d\'un produit. ' +
-        '\n' +
-        'Voici le tableau d\'objets :' +
-        '\n' +
-        `${arrayOfQuestionAnswer}` +
-        'Retourne juste un tableau d\'objets json.'
+export const promptToDetermineRatingQuestion = (qst, id) => {
+    return `
+    Tu es une IA avancée en traitement de texte.
+    Je vais te fournir une question.
+    Tu analysera la QST.
+    Si QST est possède un "?" 
+    et que c'est une phrase qui parle de satisfaction
+    et qu'l est demandé de choisir de choisir un chiffre dans un intervalle, 
+    alors tu me retournes ceci : 
+   { 
+        "id": ${id},
+        "isRating": true
+   }.  
+    
+    Si QST ne possède possède pas de "?" 
+    ou que ce n'est pas une phrase qui parle de satisfaction
+    ou qu'il n'est pas demandé de choisir de choisir un chiffre dans un intervalle, 
+    alors tu me retournes ceci : 
+    {  
+        "id": ${id},
+        "isRating": false
+   }. 
+         
+    QST : ${qst}
+    `
+}
+
+export const promptToDetermineRate = (qst, answer) => {
+    return `
+    Tu es une IA avancée en traitement de texte.
+    Je vais te fournir une question (QST) et une réponse (ANSWER).
+    Tu analysera la QST et la ANSWER.
+    Tu dois transformer ANSWER pour qu'il réponde à 100% à la QST.
+    
+    Exemple : Notre QST est "Donner une note de 0 à 10" et notre ANSWER est "J'ai adoré, c'était super, géniale".
+    Dans ce cas, tu dois retourner "10".
+    
+    Autre exemple : Notre QST est "Donner une note de 0 à 10" et notre ANSWER est "J'ai bien aimé la nourriture, mais l'accueil était nul".
+    Dans ce cas, tu dois retourner "5".
+    
+    Autre exemple : Notre QST est "Donner une note de 0 à 10" et notre ANSWER est "Je n'ai pas aimé, c'était nul".
+    Dans ce cas, tu dois retourner "0".
+    
+    S'il donne une note, tu dois retourner la note.
+    Si ANSWER sous forme de texte avec aucun chiffre, tu dois la transformer en chiffre, le plus cohérent possible.
+    Si la note d'ANSWER est supérieur au max donné dans QST, mettre la note max de QST.
+    Si la note d'ANSWER est inférieur au min donné dans QST, mettre la note min de QST.
+    
+    Exemple: Notre QST est "Donner une note de 1 à 5 (1: pas du tout satisfait et 5: très satisfait" et notre ANSWER est "8, très satisfait".
+    Dans ce cas, tu dois retourner "5".
+    
+     Exemple: Notre QST est "Donner une note de 1 à 5 (1: pas du tout satisfait et 5: très satisfait" et notre ANSWER est "-2, pas du tout satisfait".
+    Dans ce cas, tu dois retourner "1".
+    
+    Tu dois retourner ta réponse sous forme la forme suivante : 
+    { "answer": ANSWER transformé,
+      "note_max": max donné dans QST,
+      "note_min": min donné dans QST
+    }
+    
+    QST : ${qst}
+    ANSWER : ${answer}
+    `
 }

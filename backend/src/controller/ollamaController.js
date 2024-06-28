@@ -1,23 +1,25 @@
 import express from "express";
 import { prisma } from "../database/index.js";
-import {prompt_2} from "../prompt.js";
+import {prompt_1, promptToDetermineRate, promptToDetermineRatingQuestion} from "../prompt.js";
 
 const app = express();
 
 app.post("/", async (req, res) => {
-  const { qst, answer } = req.body;
+  const { qst, answer, rating } = req.body;
+
+  console.log(qst, answer, rating);
 
   if (!qst || !answer) {
     res.status(400).send("Missing parameters");
     return;
   }
 
-  const response = await iaMistral(qst, answer);
 
-  const data = await response.json();
-  const iaResponse = JSON.parse(data.response);
+  const iaResponse = await iaMistral(prompt_1(qst, answer));
 
-  const user = await prisma.user.findUnique({
+  console.log(iaResponse);
+
+  const user = await prisma.patient.findUnique({
     where: {
       email: "test@test.com",
     },
@@ -96,11 +98,42 @@ app.post('/test', async (req, res) => {
     };
   });
 
-  const iaResponse = await iaMistral(prompt_2(JSON.stringify(questionsFormatted)));
+  const findRatingQuestionByIA = [];
 
-  console.log(iaResponse);
+  for (const question of questionsFormatted) {
+    const response = await iaMistral(promptToDetermineRatingQuestion(question.question, question.id));
 
-  res.send("ok").status(200);
+    if (response.isRating) {
+      findRatingQuestionByIA.push(question.id);
+    }
+  }
+
+  const ratingAnswers = await prisma.answer.findMany({
+    where: {
+      questionId: {
+        in: findRatingQuestionByIA,
+      },
+    },
+  });
+
+  const ratingQuestionAndAnswer = findRatingQuestionByIA.map((id) => {
+    return questionsFormatted.find((question) => question.id === id);
+  });
+
+  const ratingAnswersIA = [];
+  for (const questionAndAnswer of ratingQuestionAndAnswer) {
+    const response = await iaMistral(promptToDetermineRate(questionAndAnswer.question, questionAndAnswer.answer));
+    console.log({
+        question: questionAndAnswer.question,
+        answer: questionAndAnswer.answer,
+        response,
+    })
+    ratingAnswersIA.push(response);
+  }
+
+
+
+  res.send(ratingAnswersIA).status(200);
 
 })
 
@@ -116,6 +149,7 @@ export async function iaMistral(prompt) {
       model: "mistral",
       prompt: prompt,
       stream: false,
+      format: "json",
     }),
   });
 

@@ -7,8 +7,12 @@ async function main() {
     await prisma.patient.create({
         data: {
             email: "test@test.com",
-            password: "test",
             name: "test",
+            firstname: "test",
+            birthDate: new Date(Date.now()),
+            cellphone: "123456789",
+            numOperation: '123456789',
+
         },
     })
 

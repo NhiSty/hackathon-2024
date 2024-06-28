@@ -32,7 +32,7 @@ async function main() {
       },
     });
 
-    const iaResponse = await iaMistral(item.question, item.reponse);
+    /*const iaResponse = await iaMistral(item.question, item.reponse);
 
     await prisma.simplifiedIA.create({
       data: {
@@ -44,7 +44,7 @@ async function main() {
         category: iaResponse.category,
         confidence: parseInt(iaResponse.confidence),
       },
-    });
+    });*/
   }
 
   console.log("Données importées avec succès");
