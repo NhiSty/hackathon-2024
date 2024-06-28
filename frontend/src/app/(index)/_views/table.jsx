@@ -5,17 +5,20 @@ import { UserModal } from "./user_modal";
 import PropTypes from "prop-types";
 
 export function Table({ data }) {
+  const rowPerPage = 5
+  const [modalData, setModalData] = useState(null);
+  const [startIndex, setStartIndex] = useState(0);
+  const [endIndex, setEndIndex] = useState(rowPerPage);
+
+  console.log(data.length)
+
   const colClasses =
     "px-5 py-3 text-sm font-normal text-center text-gray-800 uppercase bg-white border-b border-gray-200";
-
-  console.log(data)
-  const [modalData, setModalData] = useState(null);
 
   const onAction = useCallback((params) => {
     switch (params.action) {
       case "showMessage":
         setModalData(params.data);
-        console.log("showMessage", params.data);
         break;
       default:
         break;
@@ -53,7 +56,7 @@ export function Table({ data }) {
           </tr>
         </thead>
         <tbody className="overflow-x-auto">
-          {data.map((item, i) => (
+          {data.slice(startIndex, endIndex).map((item, i) => (
             <TableItem key={i} data={item} onAction={onAction} />
           ))}
         </tbody>
@@ -63,7 +66,11 @@ export function Table({ data }) {
 
       <Pagination
         totalItems={data.length}
-        itemsPerPage={8}
+        itemsPerPage={rowPerPage}
+        startIndex={startIndex}
+        endIndex={endIndex}
+        setStartIndex={setStartIndex}
+        setEndIndex={setEndIndex}
         onPageChange={() => {}}
       />
 
