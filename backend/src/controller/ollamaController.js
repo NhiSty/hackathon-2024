@@ -1,6 +1,6 @@
 import express from "express";
 import { prisma } from "../database/index.js";
-import { categorizationPrompt, notationPrompt, simplificationPrompt, promptToDetermineRatingQuestion, promptToDetermineRate } from "../prompt.js";
+import { categorizationPrompt, simplificationPrompt, promptToDetermineRatingQuestion, promptToDetermineRate } from "../prompt.js";
 import hacaktonData from "../../utils/hackathonData.json" with {type: "json"}
 
 const app = express();
@@ -17,7 +17,6 @@ app.post("/", async (req, res) => {
     qst = randomData.question;
     answer = randomData.reponse;
   }
-
 
   const iaResponse = await iaMistral(categorizationPrompt(qst, answer));
 
@@ -154,7 +153,7 @@ export async function iaMistral(prompt) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "llama3",
+      model: "mistral",
       prompt: prompt,
       stream: false,
       format: "json",
