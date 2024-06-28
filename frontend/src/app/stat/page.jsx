@@ -12,13 +12,16 @@ export default function MaPage() {
     kpi()
       .then((data) => {
         setData(data);
-        setLoading(false);
+        setLoading(false)
       })
       .catch((err) => {
         console.log(err);
         setLoading(false);
       });
   }, []);
+
+
+console.log("---------->",data.ratingBetweenSixAndTen)
 
   const goHome = () => {
     window.location.href = "/";
@@ -27,8 +30,8 @@ export default function MaPage() {
 //  setLoading(false);
 
   return (
-    <div className="p-8 min-h-screen flex flex-col">
-      <div className="container px-4 mx-auto w-full max-w-screen-2xl sm:px-8 flex flex-col gap-12 flex-1">
+    <div className="flex flex-col min-h-screen p-8">
+      <div className="container flex flex-col flex-1 w-full gap-12 px-4 mx-auto max-w-screen-2xl sm:px-8">
         <header className="text-2xl font-semibold">
             Statistique
             
@@ -42,13 +45,13 @@ export default function MaPage() {
 
         {loading ? (
           <div className="flex flex-col items-center justify-center flex-1">
-            <Loader className="animate-spin w-12 h-12 text-blue-500" />
-            <p className="text-gray-500 mt-4">Notre IA traite les données ...</p>
+            <Loader className="w-12 h-12 text-blue-500 animate-spin" />
+            <p className="mt-4 text-gray-500">Notre IA traite les données ...</p>
           </div>
         ) : (
           <>
-            <section className="flex flex-col md:flex-row gap-7 min-w-full">
-              <div className="shadow px-4 bg-white rounded-lg flex-1">
+            <section className="flex flex-col min-w-full md:flex-row gap-7">
+              <div className="flex-1 px-4 bg-white rounded-lg shadow">
                 <div className="flex flex-col gap-2 p-4">
                   <div className="text-xl font-semibold">number Of Rating Questions</div>
                   <div className="text-4xl font-bold text-center text-blue-500">
@@ -57,7 +60,7 @@ export default function MaPage() {
                 </div>
               </div>
 
-              <div className="shadow px-4 bg-white rounded-lg flex-1">
+              <div className="flex-1 px-4 bg-white rounded-lg shadow">
                 <div className="flex flex-col gap-2 p-4">
                   <div className="text-xl font-semibold">number Of Rating Questions With Answer</div>
                   <div className="text-4xl font-bold text-center text-blue-500">
@@ -66,7 +69,7 @@ export default function MaPage() {
                 </div>
               </div>
 
-              {/* <div className="shadow px-4 bg-white rounded-lg flex-1">
+              {/* <div className="flex-1 px-4 bg-white rounded-lg shadow">
                 <div className="flex flex-col gap-2 p-4">
                   <div className="text-xl font-semibold">Total Comments</div>
                   <div className="text-4xl font-bold text-center text-blue-500">
@@ -76,9 +79,47 @@ export default function MaPage() {
               </div> */}
             </section>
 
-            <section className="flex flex-row justify-center items-center gap-4 min-w-full rounded-lg shadow p-4 bg-white flex-1">
+            <section className="flex flex-row items-center justify-center flex-1 min-w-full gap-4 p-4 bg-white rounded-lg shadow">
               <StatsChart data={data} />
             </section>
+            <section className="flex flex-col gap-4 p-4 bg-white rounded-lg shadow">
+            <div className="relative overflow-x-auto">
+    <table className="w-full text-sm text-left text-gray-500 rtl:text-right dark:text-gray-400">
+        <tbody>
+            {data.ratingBetweenSixAndTen.map((item) => {
+                return (
+                  <tr className="bg-white border-b ">
+                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                        {item.question}
+                    </th>
+                    <th className="px-6 py-4">
+                        {item.answer}
+                    </th>
+                    <td className="px-6 py-4">
+                        {item.simplifiedRatingAnswer}
+                    </td>
+                  </tr>
+                )
+              })}
+              {data.ratingBetweenZeroAndFive.map((item) => {
+                return (
+                  <tr className="bg-white border-b ">
+                    <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                        {item.question}
+                    </th>
+                    <th className="px-6 py-4">
+                        {item.answer}
+                    </th>
+                    <td className="px-6 py-4">
+                        {item.simplifiedRatingAnswer}
+                    </td>
+                  </tr>
+                )
+              })}
+        </tbody>
+    </table>
+</div>
+              </section>
           </>
         )}
       </div>

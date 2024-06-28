@@ -3,9 +3,11 @@
 import ReactECharts from "echarts-for-react";
 
 export function StatsChart({data}) {
+
+  console.log(data);
   const options = {
     title: {
-      text: "sdev le bg",
+      text: "Notes",
       left: "center",
       top: "center",
     },
@@ -15,11 +17,11 @@ export function StatsChart({data}) {
         data: [
           {
             value: data.numberOfRatingBetweenZeroAndFive,
-            name: "numberOfRatingBetweenZeroAndFive",
+            name: `numberOfRatingBetweenZeroAndFive : ${ data.numberOfRatingBetweenZeroAndFive}`,
           },
           {
-            value: data.numberOfRatingBetweenFiveAndTen,
-            name: "numberOfRatingBetweenFiveAndTen",
+            value: data.numberOfRatingBetweenSixAndTen,
+            name: `numberOfRatingBetweenSixAndTen : ${data.numberOfRatingBetweenSixAndTen}`,
           },
           // {
           //   value: 1548,
@@ -32,11 +34,14 @@ export function StatsChart({data}) {
   };
 
   return (
-    <ReactECharts
+
+    <>
+        <ReactECharts
       option={options}
       notMerge={true}
       className="w-full"
       style={{ height: "400px" }}
-    />
+    /> 
+    </>
   );
 }

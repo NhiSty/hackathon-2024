@@ -140,7 +140,7 @@ app.get('/kpi', async (req, res) => {
     ratingAnswersIA.push({
       question: questionAndAnswer.question,
       answer: questionAndAnswer.answer,
-      simplifiedRatingAnswer:  Math.round((noteInt / maxNoteInt) * 10),
+      simplifiedRatingAnswer: Math.round((noteInt / maxNoteInt) * 10),
     });
   }
 
