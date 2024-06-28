@@ -1,6 +1,23 @@
+"use client"
+import { kpi } from "@/api/kpi.js";
 import { StatsChart } from "./_chart.jsx";
+import { useState, useEffect } from "react";
 
 export default function MaPage() {
+
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        kpi()
+            .then((data) => setData(data))
+            .catch((err) => console.log(err));
+    }
+    , []);
+
+    console.log("-------------->data", data)
+
+
   return (
     <div className="p-8 min-h-screen flex flex-col">
       <div className="container px-4 mx-auto w-full max-w-screen-2xl sm:px-8 flex flex-col gap-12 flex-1">
