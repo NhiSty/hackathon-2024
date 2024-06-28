@@ -84,7 +84,7 @@ app.post("/", async (req, res) => {
   res.status(200).send("Data created successfully");
 });
 
-app.post('/kpi', async (req, res) => {
+app.get('/kpi', async (req, res) => {
 
   const questions = await prisma.question.findMany({
     include: {
