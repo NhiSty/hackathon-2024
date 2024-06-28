@@ -5,6 +5,8 @@ import { useEffect, useState, useMemo } from "react";
 
 export function TabViewer({ table, users }) {
 
+  console.log("users", users);
+
 
   switch (table) {
     case 1:

@@ -81,7 +81,7 @@ app.post("/", async (req, res) => {
     return res.status(422).send("Error creating simplified answer");
   }
 
-  res.status(200).send("Data created successfully");
+  res.status(200).json("Data created successfully");
 });
 
 app.get('/kpi', async (req, res) => {

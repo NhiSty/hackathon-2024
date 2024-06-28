@@ -3,7 +3,18 @@ import {
 } from "lucide-react";
 import PropTypes from "prop-types";
 
+function formatDate(dateStr) {
+  let dateObj = new Date(dateStr);
+  let year = dateObj.getUTCFullYear();
+  let month = ('0' + (dateObj.getUTCMonth() + 1)).slice(-2); 
+  let day = ('0' + dateObj.getUTCDate()).slice(-2);
+  return `${year}/${month}/${day}`;
+}
+
 export function TableItem({ data, onAction }) {
+
+  data.birthDate = formatDate(data.birthDate)
+
     return (
       <tr>
         <td className="px-5 py-5 text-sm text-center bg-white border-b border-gray-200">

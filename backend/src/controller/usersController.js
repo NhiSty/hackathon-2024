@@ -74,7 +74,7 @@ app.get(
         email: answer.author.email,
         name: answer.author.name,
         firstname: answer.author.firstname,
-        birthdate: answer.author.birthdate,
+        birthDate: answer.author.birthDate,
         cellphone: answer.author.cellphone,
         numOperation: answer.author.numOperation,
         userId: answer.author.id,
