@@ -170,7 +170,7 @@ export async function iaMistral(prompt) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "mistral",
+      model: "llama3",
       prompt: prompt,
       stream: false,
       format: "json",

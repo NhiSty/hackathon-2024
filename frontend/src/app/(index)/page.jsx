@@ -1,11 +1,20 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navbar } from "./_components/navbar";
 import { TabViewer } from "./_views/viewer";
+import { fetchUsersData } from "@/api/user.js";
 
 
 export default function Home() {
   const [table, setTable] = useState(1);
+  const [isLoading, setIsLoading] = useState(1);
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetchUsersData()
+      .then((data) => setUsers(data))
+      .catch((err) => console.log(err));
+  }, []);
 
   const goStat = () => {
     window.location.href = "/stat";
@@ -17,7 +26,7 @@ export default function Home() {
         <div className="px-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
           <div className="inline-block min-w-full overflow-hidden rounded-lg shadow">
             <Navbar onTableChange={setTable} table={table} />
-            <TabViewer table={table} />
+            <TabViewer table={table} users={users} />
           </div>
         </div>
        <div className="flex flex-row items-center justify-center w-full h-full">
@@ -35,7 +44,15 @@ export default function Home() {
 
 
 async function generateRandomQuestion() {
-  await fetch(`http://localhost:8000/api/v1/`,{
+   const res = await fetch(`http://localhost:8000/api/v1/`,{
     method: 'POST',
   });
+
+
+  const data = await res.json();
+
+  if(data){
+    
+  }
+ 
 }
