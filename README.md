@@ -23,18 +23,6 @@
    - WhiskyDev(ThomasDev6) : Thomas JALLU
 
 
-Lancer Ollama en local avec le model llama3
-Aller dans le container node
-Lancer la commande npx prisma generate
-Lancer la commande npx prisma migrate dev
-Lancer node seed.js
-se déplacer dans le dossier utils
-Lancer node importHackathonData.js
-sortir du container, aller dans frontEnd
-npm i && npm run dev
-Accéder à l'URL : http://localhost:3000/
-
-
 ## Lancement du prototype hackathon 2024
 
 Se deplacer dans le dossier `backend`
