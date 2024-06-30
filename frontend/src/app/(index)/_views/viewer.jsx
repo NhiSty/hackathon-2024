@@ -1,16 +1,12 @@
 import PropTypes from "prop-types";
 import { Table } from "./table.jsx";
 import { useEffect, useState, useMemo } from "react";
-import { fetchUsersData } from "@/api/user.js";
 
-export function TabViewer({ table }) {
-  const [users, setUsers] = useState([]);
 
-  useEffect(() => {
-    fetchUsersData()
-      .then((data) => setUsers(data))
-      .catch((err) => console.log(err));
-  }, []);
+export function TabViewer({ table, users }) {
+
+  console.log("users", users);
+
 
   switch (table) {
     case 1:

@@ -2,10 +2,12 @@
 
 import ReactECharts from "echarts-for-react";
 
-export function StatsChart() {
+export function StatsChart({data}) {
+
+  console.log(data);
   const options = {
     title: {
-      text: "A Case of Doughnut Chart",
+      text: "Notes",
       left: "center",
       top: "center",
     },
@@ -14,17 +16,17 @@ export function StatsChart() {
         type: "pie",
         data: [
           {
-            value: 335,
-            name: "A",
+            value: data.numberOfRatingBetweenZeroAndFive,
+            name: `numberOfRatingBetweenZeroAndFive : ${ data.numberOfRatingBetweenZeroAndFive}`,
           },
           {
-            value: 234,
-            name: "B",
+            value: data.numberOfRatingBetweenSixAndTen,
+            name: `numberOfRatingBetweenSixAndTen : ${data.numberOfRatingBetweenSixAndTen}`,
           },
-          {
-            value: 1548,
-            name: "C",
-          },
+          // {
+          //   value: 1548,
+          //   name: "C",
+          // },
         ],
         radius: ["40%", "70%"],
       },
@@ -32,11 +34,14 @@ export function StatsChart() {
   };
 
   return (
-    <ReactECharts
+
+    <>
+        <ReactECharts
       option={options}
       notMerge={true}
       className="w-full"
       style={{ height: "400px" }}
-    />
+    /> 
+    </>
   );
 }

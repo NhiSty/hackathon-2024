@@ -77,7 +77,7 @@ app.post("/", async (req, res) => {
     return res.status(422).send("Error creating simplified answer");
   }
 
-  res.status(200).send("Data created successfully");
+  res.status(200).json("Data created successfully");
 });
 
 app.get('/kpi', async (req, res) => {
@@ -136,7 +136,7 @@ app.get('/kpi', async (req, res) => {
     ratingAnswersIA.push({
       question: questionAndAnswer.question,
       answer: questionAndAnswer.answer,
-      simplifiedRatingAnswer:  Math.round((noteInt / maxNoteInt) * 10),
+      simplifiedRatingAnswer: Math.round((noteInt / maxNoteInt) * 10),
     });
   }
 
@@ -166,7 +166,7 @@ export async function iaMistral(prompt) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: "mistral",
+      model: "llama3",
       prompt: prompt,
       stream: false,
       format: "json",
