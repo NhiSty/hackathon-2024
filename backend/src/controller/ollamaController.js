@@ -8,8 +8,6 @@ const app = express();
 app.post("/", async (req, res) => {
   let { qst, answer, rating } = req.body;
 
-  console.log(qst, answer, rating);
-
   if (!qst || !answer) {
     const randomIndex = Math.floor(Math.random() * hacaktonData.length);
     const randomData = hacaktonData[randomIndex];
@@ -18,8 +16,6 @@ app.post("/", async (req, res) => {
   }
 
   const iaResponse = await iaMistral(categorizationPrompt(qst, answer));
-
-  console.log(iaResponse);
 
   const user = await prisma.patient.findUnique({
     where: {
